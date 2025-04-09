@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits, MessageEmbed } from 'discord.js';
-const fs = require('fs');
+import fs from 'fs';
 
 const client = new Client({
     intents: [
