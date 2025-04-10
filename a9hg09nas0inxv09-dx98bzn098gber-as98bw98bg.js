@@ -1,17 +1,12 @@
-try {
-    import pkg from 'discord.js';
-    import fs from 'fs';
+// index.js or bot.mjs (with "type": "module" in package.json)
+import pkg from 'discord.js';
+import fs from 'fs';
 
-    const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
+const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
 
-    console.log('discord.js version working');
-    console.log('GatewayIntentBits:', GatewayIntentBits);
-
-    const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
-    console.log('GatewayIntentBits:', GatewayIntentBits);
-} catch (err) {
-    console.error('Import or top-level error:', err);
-}
+// Log what we got to be sure it works
+console.log('✅ Loaded discord.js');
+console.log('GatewayIntentBits keys:', Object.keys(GatewayIntentBits));
 
 const client = new Client({
     intents: [
@@ -90,6 +85,7 @@ client.on('messageCreate', async (message) => {
     logChatMessage(content, id, username, displayName, time, date);
 });
 
+// ✅ Export default function for dynamic import
 export default function startBot() {
     client.login(process.env.BOT_API_KEY);
 }
