@@ -76,5 +76,6 @@ client.on('messageCreate', async (message) => {
     logChatMessage(content, id, username, displayName, time, date);
 });
 
-const botToken = process.env.BOT_API_KEY;
-client.login(botToken);
+export default function startBot() {
+    client.login(process.env.BOT_API_KEY);
+}
