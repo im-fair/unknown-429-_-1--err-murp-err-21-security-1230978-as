@@ -1,18 +1,17 @@
-// index.js or bot.mjs (with "type": "module" in package.json)
 import pkg from 'discord.js';
 import fs from 'fs';
 
 const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
 
-// Log what we got to be sure it works
-console.log('✅ Loaded discord.js');
-console.log('GatewayIntentBits keys:', Object.keys(GatewayIntentBits));
+// Log available GatewayIntentBits to check for MessageContent and AuditLogs
+console.log('Available GatewayIntentBits:', GatewayIntentBits);
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent
+        GatewayIntentBits.MessageContent,  // Check if this is available
+        GatewayIntentBits.AuditLogs        // Add the AuditLogs intent if needed
     ]
 });
 
