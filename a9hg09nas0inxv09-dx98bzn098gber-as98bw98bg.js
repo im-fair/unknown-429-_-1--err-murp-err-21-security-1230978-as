@@ -1,8 +1,12 @@
-import pkg from 'discord.js';
-import fs from 'fs';
+try {
+    import pkg from 'discord.js';
+    import fs from 'fs';
 
-const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
-console.log('GatewayIntentBits:', GatewayIntentBits);
+    const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
+    console.log('GatewayIntentBits:', GatewayIntentBits);
+} catch (err) {
+    console.error('Import or top-level error:', err);
+}
 
 const client = new Client({
     intents: [
