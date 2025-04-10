@@ -3,6 +3,11 @@ try {
     import fs from 'fs';
 
     const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
+
+    console.log('discord.js version working');
+    console.log('GatewayIntentBits:', GatewayIntentBits);
+
+    const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
     console.log('GatewayIntentBits:', GatewayIntentBits);
 } catch (err) {
     console.error('Import or top-level error:', err);
