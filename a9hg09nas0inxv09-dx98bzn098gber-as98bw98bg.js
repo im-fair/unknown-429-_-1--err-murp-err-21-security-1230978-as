@@ -1,6 +1,7 @@
 import pkg from 'discord.js';
 import fs from 'fs';
 const { Client, GatewayIntentBits, IntentsBitField, EmbedBuilder } = pkg;
+
 const intents = new IntentsBitField();
 intents.add(
     GatewayIntentBits.Guilds,
@@ -9,14 +10,17 @@ intents.add(
 if (GatewayIntentBits.MessageContent) {
     intents.add(GatewayIntentBits.MessageContent);
 }
+
 const client = new Client({
     intents: intents
 });
+
 let isChatLoggingEnabled = true;
 let isAuditLoggingEnabled = true;
 let chatLogChannel = null;
 let auditLogChannel = null;
 let lastAuditLogTimestamp = null;
+
 async function logChatMessage(content, userID, username, displayname, time, date) {
     const logMessage = `${displayname} (@${username}) ID: ${userID} || D: ${date} T: ${time}\n${content}`;
 
@@ -24,6 +28,7 @@ async function logChatMessage(content, userID, username, displayname, time, date
         await chatLogChannel.send(logMessage);
     }
 }
+
 async function logAudits() {
     if (isAuditLoggingEnabled && auditLogChannel) {
         const guild = client.guilds.cache.get('YOUR_GUILD_ID');
@@ -42,6 +47,7 @@ async function logAudits() {
         }
     }
 }
+
 async function startAuditLogging() {
     isAuditLoggingEnabled = true;
     while (isAuditLoggingEnabled) {
@@ -49,15 +55,18 @@ async function startAuditLogging() {
         await new Promise(resolve => setTimeout(resolve, 500));
     }
 }
+
 function stopAuditLogging() {
     isAuditLoggingEnabled = false;
 }
+
 async function setupLogging({ chatChannelID, auditChannelID }) {
     chatLogChannel = await client.channels.fetch(chatChannelID);
     auditLogChannel = await client.channels.fetch(auditChannelID);
 
     startAuditLogging();
 }
+
 client.once('ready', () => {
     console.log('Bot is ready!');
     setupLogging({
@@ -65,6 +74,7 @@ client.once('ready', () => {
         auditChannelID: 'YOUR_AUDIT_LOG_CHANNEL_ID'
     });
 });
+
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
@@ -73,6 +83,13 @@ client.on('messageCreate', async (message) => {
     const date = createdAt.toLocaleDateString();
     logChatMessage(content, id, username, displayName, time, date);
 });
-export default function startBot() {
-    client.login(process.env.BOT_API_KEY);
+
+export default async function startBot() {
+    try {
+        console.log("Attempting to log in...");
+        await client.login(process.env.BOT_API_KEY);
+        console.log("Bot logged in successfully!");
+    } catch (error) {
+        console.error("Failed to log in:", error);
+    }
 }
