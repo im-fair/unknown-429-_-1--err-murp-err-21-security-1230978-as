@@ -3,16 +3,24 @@ import fs from 'fs';
 
 const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
 
-// Log available GatewayIntentBits to check for MessageContent and AuditLogs
-console.log('Available GatewayIntentBits:', GatewayIntentBits);
+// Log available GatewayIntentBits keys to check what's available
+console.log('Available GatewayIntentBits:', Object.keys(GatewayIntentBits));
+
+const intents = [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages
+];
+
+// Only add MessageContent if it's available in the current version
+if (GatewayIntentBits.MessageContent) {
+    intents.push(GatewayIntentBits.MessageContent);
+}
+
+// Add the AuditLogs intent if needed (ensure the bot has the proper permissions)
+intents.push(GatewayIntentBits.AuditLogs);
 
 const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent,  // Check if this is available
-        GatewayIntentBits.AuditLogs        // Add the AuditLogs intent if needed
-    ]
+    intents: intents
 });
 
 let isChatLoggingEnabled = true;
