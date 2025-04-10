@@ -2,6 +2,7 @@ import pkg from 'discord.js';
 import fs from 'fs';
 
 const { Client, GatewayIntentBits, EmbedBuilder } = pkg;
+console.log('GatewayIntentBits:', GatewayIntentBits);
 
 const client = new Client({
     intents: [
