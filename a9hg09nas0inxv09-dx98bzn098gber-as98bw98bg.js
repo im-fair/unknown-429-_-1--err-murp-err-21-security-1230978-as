@@ -1,9 +1,6 @@
 import pkg from 'discord.js';
 import fs from 'fs';
 const { Client, GatewayIntentBits, IntentsBitField, EmbedBuilder } = pkg;
-console.log('✅ Loaded discord.js');
-console.log('Available GatewayIntentBits:', Object.keys(GatewayIntentBits));
-console.log('MessageContent defined:', GatewayIntentBits.MessageContent);
 const intents = new IntentsBitField();
 intents.add(
     GatewayIntentBits.Guilds,
