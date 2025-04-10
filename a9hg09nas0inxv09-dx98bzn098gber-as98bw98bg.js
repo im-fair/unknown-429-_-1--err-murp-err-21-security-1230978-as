@@ -1,5 +1,7 @@
-import { Client, GatewayIntentBits, MessageEmbed } from 'discord.js';
+import pkg from 'discord.js';
 import fs from 'fs';
+
+const { Client, GatewayIntentBits, MessageEmbed } = pkg;
 
 const client = new Client({
     intents: [
@@ -26,10 +28,13 @@ async function logChatMessage(content, userID, username, displayname, time, date
 
 async function logAudits() {
     if (isAuditLoggingEnabled && auditLogChannel) {
-        const auditLogs = await client.guilds.cache.get('YOUR_GUILD_ID').fetchAuditLogs({ limit: 10 });
+        const guild = client.guilds.cache.get('YOUR_GUILD_ID');
+        if (!guild) return;
+
+        const auditLogs = await guild.fetchAuditLogs({ limit: 10 });
         const sortedLogs = auditLogs.entries.sort((a, b) => b.createdTimestamp - a.createdTimestamp);
 
-        for (const log of sortedLogs) {
+        for (const [, log] of sortedLogs) {
             if (!lastAuditLogTimestamp || log.createdTimestamp > lastAuditLogTimestamp) {
                 const logMessage = `Action: ${log.action}\nUser: ${log.executor.tag}\nTime: ${new Date(log.createdTimestamp).toLocaleString()}\nDetails: ${log.reason || 'No details provided'}`;
 
